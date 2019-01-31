@@ -1,25 +1,46 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import Person from './Person/Person';
+
 class App extends Component {
+  state = {
+    persons: [
+      { id: 1, name: 'Carlos', age: 31},
+      { id: 2, name: 'Gabi', age: 27, children: 'Carlos\' girlfriend!'},
+    ],
+    showPersons: false
+  }
+
+  togglePersonsHandler = () => {
+    this.setState(prevState => ({ showPersons: !prevState.showPersons }));
+  }
+
+  deletePersonHandler = (deletedId) => {
+    const { persons } = this.state;
+    const newPersons = persons.filter(({ id }) => id !== deletedId)
+
+    this.setState({ persons: newPersons });
+  }
+
   render() {
+    const btnColor = this.state.showPersons ? 'red' : 'green';
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Hi, I'm a React App</h1>
+        <button
+          className={`btn ${btnColor}`}
+          onClick={this.togglePersonsHandler}>Toggle List</button>
+        {this.state.showPersons && this.state.persons
+          .map(({ id, name, age, children }) => (
+            <Person
+              key={id}
+              name={name}
+              age={age}
+              deletePersonHandler={this.deletePersonHandler.bind(this, id)}
+            >{children}</Person>
+          ))}
       </div>
     );
   }

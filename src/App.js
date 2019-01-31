@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 
 import Person from './Person/Person';
 
@@ -30,7 +30,7 @@ class App extends Component {
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <button
-          className={`btn ${btnColor}`}
+          className={`btn btn-${btnColor}`}
           onClick={this.togglePersonsHandler}>Toggle List</button>
         {this.state.showPersons && this.state.persons
           .map(({ id, name, age, children }) => (
